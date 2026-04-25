@@ -1,250 +1,641 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Almelia IA | Soluciones Elite para Dispensación Farmacéutica</title>
-    
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap" rel="stylesheet">
-    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-    <script src="https://unpkg.com/feather-icons"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Almelia IA | Asistente Virtual de Farmacia</title>
 
-    <style>
-        :root {
-            --primary: #0052FF;
-            --primary-dark: #003eb3;
-            --accent: #00D1FF;
-            --dark: #0F172A;
-            --slate: #64748B;
-            --light: #F8FAFC;
-            --white: #FFFFFF;
-            --glass: rgba(255, 255, 255, 0.8);
+  <!-- Tipografía profesional -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+
+  <!-- Tailwind -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Librerías -->
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+  <script src="https://unpkg.com/feather-icons"></script>
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            display: ['Space Grotesk', 'sans-serif'],
+          },
+          colors: {
+            ink: '#23395B',
+            soft: '#5E6B7D',
+            line: '#D9E0EA',
+            surface: '#F2F4F7',
+            surface2: '#EDEFF3',
+            primary: '#2563FF',
+            cyanx: '#22D3EE',
+            darknav: '#0E1628',
+          },
+          boxShadow: {
+            glow: '0 18px 60px rgba(37, 99, 255, 0.18)',
+            softxl: '0 24px 70px rgba(35, 57, 91, 0.10)',
+            card: '0 12px 30px rgba(35, 57, 91, 0.08)',
+          },
+          backgroundImage: {
+            hero: 'radial-gradient(circle at top left, rgba(34,211,238,0.10), transparent 28%), radial-gradient(circle at 85% 20%, rgba(37,99,255,0.10), transparent 28%), linear-gradient(180deg, #F2F4F7 0%, #F7F8FA 45%, #EEF2F6 100%)',
+          }
         }
+      }
+    }
+  </script>
 
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { 
-            font-family: 'Plus Jakarta Sans', sans-serif; 
-            background-color: var(--white); 
-            color: var(--dark); 
-            line-height: 1.6; 
-            overflow-x: hidden; 
-        }
+  <style>
+    html { scroll-behavior: smooth; }
 
-        /* --- Navegación --- */
-        nav {
-            display: flex; justify-content: space-between; align-items: center;
-            padding: 15px 8%; position: fixed; width: 100%; top: 0; z-index: 1000;
-            background: var(--glass); backdrop-filter: blur(12px);
-            border-bottom: 1px solid rgba(0,0,0,0.05);
-        }
-        .logo { font-size: 1.5rem; font-weight: 800; color: var(--primary); text-decoration: none; display: flex; align-items: center; gap: 8px; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #F2F4F7;
+      color: #23395B;
+    }
 
-        /* --- Hero Section --- */
-        header {
-            min-height: 100vh;
-            padding: 180px 8% 100px;
-            background: radial-gradient(circle at top right, #E0E7FF, #FFFFFF, #F1F5F9);
-            display: flex; align-items: center; justify-content: space-between;
-            gap: 50px;
-        }
-        .hero-text { flex: 1; text-align: left; }
-        .hero-text h1 { font-size: 3.8rem; font-weight: 800; line-height: 1.1; margin-bottom: 24px; letter-spacing: -2px; }
-        .hero-text h1 span { color: var(--primary); }
-        .hero-image { flex: 1; position: relative; }
-        .hero-image img { 
-            width: 100%; border-radius: 30px; 
-            box-shadow: 20px 40px 80px rgba(0,0,0,0.1);
-            transition: transform 0.5s ease;
-        }
-        .hero-image img:hover { transform: scale(1.02); }
+    .glass {
+      background: rgba(255,255,255,0.72);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      border: 1px solid rgba(255,255,255,0.55);
+    }
 
-        /* --- Botones --- */
-        .btn { padding: 16px 32px; border-radius: 12px; text-decoration: none; font-weight: 600; transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); display: inline-flex; align-items: center; gap: 10px; border: none; cursor: pointer; }
-        .btn-dark { background: var(--dark); color: white; }
-        .btn-whatsapp { background: #25D366; color: white; }
-        .btn:hover { transform: translateY(-5px); box-shadow: 0 15px 30px rgba(0,0,0,0.15); }
+    .hero-grid::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(35,57,91,0.045) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(35,57,91,0.045) 1px, transparent 1px);
+      background-size: 34px 34px;
+      mask-image: radial-gradient(circle at center, black 48%, transparent 88%);
+      pointer-events: none;
+    }
 
-        /* --- Stats Section --- */
-        .stats { 
-            display: flex; justify-content: space-around; padding: 80px 8%; 
-            background: var(--dark); color: white; text-align: center;
-            border-radius: 40px; margin: -50px 4% 0; position: relative; z-index: 10;
-        }
-        .stat-item h3 { font-size: 3rem; color: var(--accent); font-weight: 800; }
-        .stat-item p { opacity: 0.8; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px; }
+    .badge-soft {
+      box-shadow: 0 0 0 1px rgba(255,255,255,0.4) inset, 0 10px 24px rgba(35,57,91,0.06);
+    }
 
-        /* --- Beneficios con Imágenes --- */
-        .benefits { padding: 120px 8%; display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 40px; }
-        .benefit-card { 
-            padding: 40px; border-radius: 32px; background: var(--light); 
-            border: 1px solid #E2E8F0; transition: 0.4s;
-            position: relative; overflow: hidden;
-        }
-        .benefit-card:hover { background: white; border-color: var(--primary); transform: translateY(-10px); box-shadow: 0 40px 80px rgba(0,0,0,0.05); }
-        .benefit-card .icon { width: 60px; height: 60px; background: var(--primary); color: white; border-radius: 16px; display: flex; align-items: center; justify-content: center; margin-bottom: 25px; }
+    .almelia-avatar-header {
+      position: relative;
+      padding-left: 80px;
+      min-height: 72px;
+      display: flex;
+      align-items: center;
+    }
 
-        /* --- Sección Proceso --- */
-        .process { padding: 100px 8%; background: #F8FAFC; text-align: center; }
-        .steps { display: flex; justify-content: center; gap: 40px; flex-wrap: wrap; margin-top: 60px; }
-        .step { flex: 1; min-width: 250px; background: white; padding: 40px; border-radius: 24px; box-shadow: 0 10px 30px rgba(0,0,0,0.03); }
-        .step-num { width: 50px; height: 50px; background: var(--gradient, var(--primary)); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; font-weight: 800; font-size: 1.2rem; }
+    .almelia-avatar-header::before {
+      content: '';
+      position: absolute;
+      left: 12px;
+      top: 10px;
+      width: 50px;
+      height: 50px;
+      border-radius: 9999px;
+      background: url('https://21894064.fs1.hubspotusercontent-na1.net/hubfs/21894064/kling_20250929_Image_to_Video_que_la_muj_164_0.gif') no-repeat center center;
+      background-size: cover;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.10);
+      border: 2.5px solid #fff;
+      z-index: 2;
+    }
 
-        /* --- Testimonios (Carrusel Animado) --- */
-        .testimonials { padding: 120px 0; background: white; text-align: center; overflow: hidden; }
-        .testimonial-track { display: flex; gap: 30px; animation: scroll 30s linear infinite; width: calc(400px * 8); padding: 20px 0; }
-        .testimonial-card { 
-            width: 400px; padding: 40px; background: var(--light); 
-            border-radius: 24px; flex-shrink: 0; border: 1px solid #E2E8F0; 
-            text-align: left; transition: 0.3s;
-        }
-        .testimonial-card:hover { border-color: var(--primary); background: #fff; }
-        @keyframes scroll { 0% { transform: translateX(0); } 100% { transform: translateX(calc(-400px * 4)); } }
+    @keyframes marquee {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(calc(-360px * 4)); }
+    }
 
-        /* --- CTA Final --- */
-        .cta-final { 
-            padding: 120px 8%; background: linear-gradient(135deg, var(--primary), #00A3FF); 
-            color: white; text-align: center; border-radius: 50px; margin: 0 4% 80px;
-        }
-        .cta-final h2 { font-size: 3.5rem; font-weight: 800; margin-bottom: 20px; letter-spacing: -2px; }
+    .marquee {
+      width: calc(360px * 8);
+      animation: marquee 28s linear infinite;
+    }
 
-        footer { padding: 60px 8%; text-align: center; color: var(--slate); border-top: 1px solid #eee; }
+    .floating-wa {
+      position: fixed;
+      right: 20px;
+      bottom: 20px;
+      z-index: 60;
+    }
 
-        @media (max-width: 1024px) {
-            header { flex-direction: column; text-align: center; padding-top: 150px; }
-            .hero-text { order: 1; }
-            .hero-image { order: 2; width: 100%; }
-            .hero-text h1 { font-size: 3rem; }
-        }
-    </style>
+    @media (max-width: 768px) {
+      .marquee {
+        animation-duration: 38s;
+      }
+    }
+  </style>
 </head>
-<body>
+<body class="bg-surface text-ink">
 
-    <nav>
-        <a href="#" class="logo"><i data-feather="activity"></i> Almelia.IA</a>
-        <a href="https://wa.me/573218776753" target="_blank" class="btn btn-whatsapp" style="padding: 10px 20px; font-size: 0.9rem;">
-            <i data-feather="phone"></i> Contactar ahora
-        </a>
-    </nav>
+  <!-- NAV -->
+<nav class="fixed inset-x-0 top-0 z-50">
+  <div class="mx-auto mt-4 flex max-w-7xl items-center justify-between rounded-3xl bg-[#EFF0F3] px-4 py-3 shadow-softxl sm:px-6 lg:px-8">
+    <a href="#inicio" class="flex items-center gap-3">
+      <img
+        src="https://8096262.fs1.hubspotusercontent-na1.net/hubfs/8096262/AI-Generated%20Media/Images/Captura%20de%20pantalla%202026-04-24%20215824.png"
+        alt="Logo Almelia IA"
+        class="h-12 w-auto object-contain sm:h-14"
+        loading="eager"
+      />
+    </a>
 
-    <header>
-        <div class="hero-text" data-aos="fade-right">
-            <h1>Elimine las filas en su farmacia con <span>IA de Élite</span></h1>
-            <p>Almelia IA transforma la dispensación de medicamentos en una experiencia digital fluida, automática y humana.</p>
-            <div style="display: flex; gap: 15px; flex-wrap: wrap;">
-                <a href="http://localhost:5678/webhook/7d6e359f-8d72-4e18-a76d-4b7fe0dde7ae/chat" target="_blank" class="btn btn-dark">
-                    <i data-feather="terminal"></i> Probar Simulador
-                </a>
-                <a href="https://wa.me/573218776753" target="_blank" class="btn btn-whatsapp">
-                    <i data-feather="message-circle"></i> Demo por WhatsApp
-                </a>
+    <div class="hidden items-center gap-8 md:flex">
+      <a href="#solucion" class="text-sm font-medium text-soft transition hover:text-ink">Solución</a>
+      <a href="#beneficios" class="text-sm font-medium text-soft transition hover:text-ink">Beneficios</a>
+      <a href="#testimonios" class="text-sm font-medium text-soft transition hover:text-ink">Testimonios</a>
+      <a href="#contacto" class="text-sm font-medium text-soft transition hover:text-ink">Contacto</a>
+    </div>
+
+    <a
+      href="https://wa.me/573218776753"
+      target="_blank"
+      rel="noopener noreferrer"
+      class="inline-flex items-center gap-2 rounded-2xl bg-primary px-4 py-2.5 text-sm font-semibold text-white shadow-glow transition hover:-translate-y-0.5 hover:bg-blue-700"
+    >
+      <i data-feather="message-circle" class="h-4 w-4"></i>
+      WhatsApp
+    </a>
+  </div>
+</nav>
+
+  <!-- HERO -->
+  <section id="inicio" class="relative overflow-hidden bg-hero pt-36 pb-20">
+    <div class="hero-grid absolute inset-0"></div>
+
+    <div class="relative mx-auto grid max-w-7xl items-center gap-14 px-4 sm:px-6 lg:grid-cols-2 lg:px-8">
+      <div data-aos="fade-right">
+        <div class="badge-soft inline-flex items-center gap-2 rounded-full bg-white/80 px-4 py-2 text-xs font-bold uppercase tracking-[0.2em] text-primary">
+          <span class="h-2 w-2 rounded-full bg-emerald-400"></span>
+          IA aplicada a dispensación farmacéutica
+        </div>
+
+        <h1 class="mt-6 max-w-4xl font-display text-4xl font-bold leading-[0.95] tracking-[-0.03em] text-ink sm:text-5xl lg:text-6xl">
+          La evolución de la
+          <span class="bg-gradient-to-r from-primary to-cyanx bg-clip-text text-transparent">
+            dispensación farmacéutica
+          </span>
+          con atención más ágil, inteligente y humana.
+        </h1>
+
+        <p class="mt-6 max-w-2xl text-lg leading-8 text-soft">
+          Almelia IA organiza la interacción antes de la dispensación: responde consultas, orienta al paciente,
+          valida información y reduce la congestión operativa en farmacias e IPS.
+        </p>
+
+        <div class="mt-8 flex flex-wrap gap-4">
+          <a
+            href="http://localhost:5678/webhook/7d6e359f-8d72-4e18-a76d-4b7fe0dde7ae/chat"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-flex items-center gap-2 rounded-2xl bg-darknav px-6 py-4 text-sm font-semibold text-white transition hover:-translate-y-0.5 hover:bg-slate-900"
+          >
+            <i data-feather="play-circle" class="h-4 w-4"></i>
+            Probar Almelia
+          </a>
+
+          <a
+            href="https://wa.me/573218776753?text=Hola%20Jhon%2C%20quiero%20una%20demo%20de%20Almelia%20IA"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-flex items-center gap-2 rounded-2xl bg-primary px-6 py-4 text-sm font-semibold text-white shadow-glow transition hover:-translate-y-0.5 hover:bg-blue-700"
+          >
+            <i data-feather="message-circle" class="h-4 w-4"></i>
+            Hablar por WhatsApp
+          </a>
+        </div>
+
+        <div class="mt-8 grid max-w-2xl grid-cols-1 gap-4 sm:grid-cols-3">
+          <div class="rounded-2xl border border-white/70 bg-white/75 p-4 shadow-card">
+            <div class="flex items-center gap-2">
+              <i data-feather="trending-down" class="h-4 w-4 text-primary"></i>
+              <p class="text-3xl font-extrabold text-ink">-85%</p>
             </div>
-        </div>
-        <div class="hero-image" data-aos="fade-left">
-            <img src="https://images.unsplash.com/photo-1576091160550-2173dba999ef?auto=format&fit=crop&q=80&w=1000" alt="Tecnología en Salud">
-        </div>
-    </header>
+            <p class="mt-1 text-xs uppercase tracking-[0.18em] text-soft">Menos congestión</p>
+          </div>
 
-    <section class="stats" data-aos="zoom-in">
-        <div class="stat-item">
-            <h3>-85%</h3>
-            <p>Congestión en Punto</p>
-        </div>
-        <div class="stat-item">
-            <h3>&lt; 2s</h3>
-            <p>Tiempo de Respuesta</p>
-        </div>
-        <div class="stat-item">
-            <h3>100%</h3>
-            <p>Escalabilidad Cloud</p>
-        </div>
-    </section>
+          <div class="rounded-2xl border border-white/70 bg-white/75 p-4 shadow-card">
+            <div class="flex items-center gap-2">
+              <i data-feather="clock" class="h-4 w-4 text-primary"></i>
+              <p class="text-3xl font-extrabold text-ink">&lt; 2s</p>
+            </div>
+            <p class="mt-1 text-xs uppercase tracking-[0.18em] text-soft">Respuesta IA</p>
+          </div>
 
-    <section class="benefits">
-        <div class="benefit-card" data-aos="fade-up">
-            <div class="icon"><i data-feather="cpu"></i></div>
-            <h3>Inteligencia Farmacéutica</h3>
-            <p>Nuestra IA no solo lee texto; entiende principios activos y equivalencias comerciales para guiar al paciente.</p>
+          <div class="rounded-2xl border border-white/70 bg-white/75 p-4 shadow-card">
+            <div class="flex items-center gap-2">
+              <i data-feather="shield" class="h-4 w-4 text-primary"></i>
+              <p class="text-3xl font-extrabold text-ink">24/7</p>
+            </div>
+            <p class="mt-1 text-xs uppercase tracking-[0.18em] text-soft">Disponibilidad</p>
+          </div>
         </div>
-        <div class="benefit-card" data-aos="fade-up" data-aos-delay="100">
-            <div class="icon"><i data-feather="shield"></i></div>
-            <h3>Seguridad y Validación</h3>
-            <p>Validación rigurosa de documentos de identidad y requisitos legales de recetas médicas en tiempo real.</p>
+      </div>
+
+      <div class="relative" data-aos="fade-left">
+        <div class="absolute -top-10 -left-8 h-28 w-28 rounded-full bg-cyanx/20 blur-3xl"></div>
+        <div class="absolute -bottom-12 right-0 h-36 w-36 rounded-full bg-primary/20 blur-3xl"></div>
+
+        <div class="grid gap-5">
+          <div class="overflow-hidden rounded-[2rem] border border-white/70 bg-white p-3 shadow-softxl">
+            <img
+              src="https://pplx-res.cloudinary.com/image/upload/pplx_search_images/feb9be202c91846ea632068bee5931b6bb8df878.jpg"
+              alt="Farmacéutica usando tecnología digital en farmacia moderna"
+              class="h-[360px] w-full rounded-[1.4rem] object-cover"
+              loading="lazy"
+              width="1225"
+              height="700"
+            />
+          </div>
+
+          <div class="rounded-[1.8rem] border border-line bg-white p-5 shadow-card">
+            <div class="almelia-avatar-header">
+              <div>
+                <p class="text-xs font-bold uppercase tracking-[0.2em] text-primary">Agente virtual</p>
+                <h3 class="text-xl font-bold text-ink">Almelia</h3>
+                <p class="text-sm text-soft">Asistente inteligente para atención farmacéutica.</p>
+              </div>
+            </div>
+
+            <div class="mt-4 rounded-2xl bg-surface2 p-4">
+              <div class="mb-3 flex items-start gap-3">
+                <div class="mt-1 flex h-8 w-8 items-center justify-center rounded-full bg-primary/10 text-primary">
+                  <i data-feather="message-square" class="h-4 w-4"></i>
+                </div>
+                <div class="rounded-2xl bg-white px-4 py-3 text-sm text-soft shadow-sm">
+                  Hola, soy Almelia. Puedo ayudarte con disponibilidad, validaciones y orientación previa para dispensación.
+                </div>
+              </div>
+
+              <a
+                href="http://localhost:5678/webhook/7d6e359f-8d72-4e18-a76d-4b7fe0dde7ae/chat"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="mt-3 inline-flex w-full items-center justify-center gap-2 rounded-2xl bg-darknav px-5 py-3 text-sm font-semibold text-white transition hover:bg-slate-900"
+              >
+                <i data-feather="play-circle" class="h-4 w-4"></i>
+                Abrir demo del agente
+              </a>
+            </div>
+          </div>
         </div>
-        <div class="benefit-card" data-aos="fade-up" data-aos-delay="200">
-            <div class="icon"><i data-feather="smile"></i></div>
-            <h3>Pacientes Satisfechos</h3>
-            <p>El paciente agenda su cita y solo se desplaza cuando el medicamento está listo. Cero filas, cero estrés.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- SOLUCION -->
+  <section id="solucion" class="bg-surface py-24">
+    <div class="mx-auto grid max-w-7xl items-center gap-12 px-4 sm:px-6 lg:grid-cols-2 lg:px-8">
+      <div data-aos="fade-up">
+        <p class="text-sm font-bold uppercase tracking-[0.2em] text-primary">La solución</p>
+        <h2 class="mt-3 font-display text-4xl font-bold leading-tight text-ink sm:text-5xl">
+          Menos filas físicas. Más trazabilidad. Mejor experiencia del paciente.
+        </h2>
+        <p class="mt-5 text-lg leading-8 text-soft">
+          Almelia IA orquesta la interacción previa a la dispensación: recibe solicitudes, orienta al usuario,
+          clasifica casos, verifica criterios y prepara la operación antes del contacto presencial.
+        </p>
+
+        <div class="mt-8 space-y-4">
+          <div class="flex gap-4 rounded-2xl bg-white p-5 shadow-card">
+            <div class="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-primary text-white">
+              <i data-feather="database" class="h-5 w-5"></i>
+            </div>
+            <div>
+              <h3 class="font-semibold text-ink">Conectado al inventario</h3>
+              <p class="mt-1 text-sm text-soft">Consulta disponibilidad y reduce desplazamientos innecesarios del paciente.</p>
+            </div>
+          </div>
+
+          <div class="flex gap-4 rounded-2xl bg-white p-5 shadow-card">
+            <div class="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-darknav text-white">
+              <i data-feather="shield" class="h-5 w-5"></i>
+            </div>
+            <div>
+              <h3 class="font-semibold text-ink">Validación documental</h3>
+              <p class="mt-1 text-sm text-soft">Aplica reglas operativas y documentales para evitar errores y reprocesos.</p>
+            </div>
+          </div>
+
+          <div class="flex gap-4 rounded-2xl bg-white p-5 shadow-card">
+            <div class="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-cyanx text-ink">
+              <i data-feather="message-circle" class="h-5 w-5"></i>
+            </div>
+            <div>
+              <h3 class="font-semibold text-ink">Atención conversacional</h3>
+              <p class="mt-1 text-sm text-soft">Responde en segundos y escala casos especiales al equipo humano cuando corresponde.</p>
+            </div>
+          </div>
         </div>
-    </section>
+      </div>
 
-    <section class="process">
-        <h2 data-aos="fade-up">Implementación ágil</h2>
-        <div class="steps">
-            <div class="step" data-aos="flip-left" data-aos-delay="100">
-                <div class="step-num">1</div>
-                <h3>Conexión BD</h3>
-                <p>Integramos Almelia con su inventario actual (MySQL/PostgreSQL).</p>
-            </div>
-            <div class="step" data-aos="flip-left" data-aos-delay="200">
-                <div class="step-num">2</div>
-                <h3>Personalización</h3>
-                <p>Ajustamos el tono y reglas de negocio según su IPS o Farmacia.</p>
-            </div>
-            <div class="step" data-aos="flip-left" data-aos-delay="300">
-                <div class="step-num">3</div>
-                <h3>Despliegue</h3>
-                <p>Activamos el canal en su Web, WhatsApp o App móvil.</p>
-            </div>
+      <div data-aos="zoom-in">
+        <div class="overflow-hidden rounded-[2rem] border border-line bg-white p-3 shadow-softxl">
+          <img
+            src="https://pplx-res.cloudinary.com/image/upload/pplx_search_images/371d802a8fbeeed83595ad4eeb9694cc2d09e64a.jpg"
+            alt="Sistema moderno de dispensación automática de medicamentos"
+            class="h-[560px] w-full rounded-[1.4rem] object-cover"
+            loading="lazy"
+            width="1800"
+            height="1200"
+          />
         </div>
-    </section>
+      </div>
+    </div>
+  </section>
 
-    <section class="testimonials">
-        <h2 style="margin-bottom: 50px;" data-aos="fade-up">Confían en nuestra tecnología</h2>
-        <div class="testimonial-track">
-            <div class="testimonial-card">
-                <i data-feather="quote" style="color: var(--primary); margin-bottom: 20px;"></i>
-                <p>"La reducción de filas físicas fue inmediata. Almelia gestiona el 70% de las consultas de stock automáticamente."</p>
-                <br><strong>- Director Médico, IPS Región Andina</strong>
+  <!-- BENEFICIOS -->
+  <section id="beneficios" class="bg-white py-24">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div class="max-w-3xl" data-aos="fade-up">
+        <p class="text-sm font-bold uppercase tracking-[0.2em] text-primary">Beneficios clave</p>
+        <h2 class="mt-3 font-display text-4xl font-bold text-ink sm:text-5xl">
+          Una experiencia farmacéutica más inteligente y profesional.
+        </h2>
+      </div>
+
+      <div class="mt-12 grid gap-6 md:grid-cols-2 xl:grid-cols-4">
+        <article class="rounded-[1.8rem] border border-line bg-surface p-7 transition hover:-translate-y-1 hover:border-primary hover:bg-white hover:shadow-softxl" data-aos="fade-up">
+          <div class="flex h-12 w-12 items-center justify-center rounded-2xl bg-primary text-white">
+            <i data-feather="cpu" class="h-5 w-5"></i>
+          </div>
+          <h3 class="mt-5 text-lg font-bold text-ink">IA farmacéutica</h3>
+          <p class="mt-3 text-sm leading-7 text-soft">Comprende principios activos, equivalencias y variaciones del lenguaje del paciente.</p>
+        </article>
+
+        <article class="rounded-[1.8rem] border border-line bg-surface p-7 transition hover:-translate-y-1 hover:border-primary hover:bg-white hover:shadow-softxl" data-aos="fade-up" data-aos-delay="100">
+          <div class="flex h-12 w-12 items-center justify-center rounded-2xl bg-darknav text-white">
+            <i data-feather="users" class="h-5 w-5"></i>
+          </div>
+          <h3 class="mt-5 text-lg font-bold text-ink">Menos carga operativa</h3>
+          <p class="mt-3 text-sm leading-7 text-soft">Filtra solicitudes frecuentes y libera tiempo del personal para casos críticos.</p>
+        </article>
+
+        <article class="rounded-[1.8rem] border border-line bg-surface p-7 transition hover:-translate-y-1 hover:border-primary hover:bg-white hover:shadow-softxl" data-aos="fade-up" data-aos-delay="200">
+          <div class="flex h-12 w-12 items-center justify-center rounded-2xl bg-cyanx text-ink">
+            <i data-feather="send" class="h-5 w-5"></i>
+          </div>
+          <h3 class="mt-5 text-lg font-bold text-ink">Atención omnicanal</h3>
+          <p class="mt-3 text-sm leading-7 text-soft">Opera por web y WhatsApp con una experiencia consistente y rápida.</p>
+        </article>
+
+        <article class="rounded-[1.8rem] border border-line bg-surface p-7 transition hover:-translate-y-1 hover:border-primary hover:bg-white hover:shadow-softxl" data-aos="fade-up" data-aos-delay="300">
+          <div class="flex h-12 w-12 items-center justify-center rounded-2xl bg-sky-100 text-sky-700">
+            <i data-feather="thumbs-up" class="h-5 w-5"></i>
+          </div>
+          <h3 class="mt-5 text-lg font-bold text-ink">Pacientes satisfechos</h3>
+          <p class="mt-3 text-sm leading-7 text-soft">Disminuye esperas, mejora la percepción del servicio y ordena la demanda.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- TESTIMONIOS -->
+  <section id="testimonios" class="bg-darknav py-24 text-white">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div class="max-w-3xl" data-aos="fade-up">
+        <p class="text-sm font-bold uppercase tracking-[0.2em] text-cyanx">Testimonios</p>
+        <h2 class="mt-3 font-display text-4xl font-bold sm:text-5xl">
+          Equipos de salud que ya sienten el cambio.
+        </h2>
+      </div>
+
+      <div class="mt-12 overflow-hidden">
+        <div class="marquee flex gap-6">
+          <article class="w-[360px] flex-shrink-0 rounded-[1.8rem] bg-white/5 p-7 ring-1 ring-white/10">
+            <i data-feather="quote" class="h-6 w-6 text-cyanx"></i>
+            <p class="mt-5 text-sm leading-7 text-slate-200">“La reducción de filas físicas fue inmediata. Ahora el paciente llega mejor informado y el punto de atención trabaja más ordenado.”</p>
+            <div class="mt-6 flex items-center gap-3">
+              <div class="flex h-11 w-11 items-center justify-center rounded-full bg-white/10">
+                <i data-feather="briefcase" class="h-5 w-5 text-white"></i>
+              </div>
+              <div>
+                <p class="text-sm font-semibold">Director Médico</p>
+                <p class="text-xs text-slate-400">IPS Región Andina</p>
+              </div>
             </div>
-            <div class="testimonial-card">
-                <i data-feather="quote" style="color: var(--primary); margin-bottom: 20px;"></i>
-                <p>"El sistema de agendamiento con Calendly integrado nos permitió organizar el personal de farmacia de forma eficiente."</p>
-                <br><strong>- Gerente de Operaciones, FarmaRed</strong>
+          </article>
+
+          <article class="w-[360px] flex-shrink-0 rounded-[1.8rem] bg-white/5 p-7 ring-1 ring-white/10">
+            <i data-feather="quote" class="h-6 w-6 text-cyanx"></i>
+            <p class="mt-5 text-sm leading-7 text-slate-200">“La automatización previa nos ayudó a organizar mejor al personal y a reducir consultas repetitivas por stock y disponibilidad.”</p>
+            <div class="mt-6 flex items-center gap-3">
+              <div class="flex h-11 w-11 items-center justify-center rounded-full bg-white/10">
+                <i data-feather="settings" class="h-5 w-5 text-white"></i>
+              </div>
+              <div>
+                <p class="text-sm font-semibold">Gerente de Operaciones</p>
+                <p class="text-xs text-slate-400">FarmaRed</p>
+              </div>
             </div>
-            <div class="testimonial-card">
-                <i data-feather="quote" style="color: var(--primary); margin-bottom: 200px;"></i>
-                <p>"Nuestros pacientes aman la rapidez. Consultan por WhatsApp y solo vienen a recoger. ¡Es el futuro!"</p>
-                <br><strong>- Regente de Farmacia, Salud Global</strong>
+          </article>
+
+          <article class="w-[360px] flex-shrink-0 rounded-[1.8rem] bg-white/5 p-7 ring-1 ring-white/10">
+            <i data-feather="quote" class="h-6 w-6 text-cyanx"></i>
+            <p class="mt-5 text-sm leading-7 text-slate-200">“Nuestros pacientes valoran mucho la rapidez. Preguntan por WhatsApp y solo vienen cuando realmente deben venir.”</p>
+            <div class="mt-6 flex items-center gap-3">
+              <div class="flex h-11 w-11 items-center justify-center rounded-full bg-white/10">
+                <i data-feather="heart" class="h-5 w-5 text-white"></i>
+              </div>
+              <div>
+                <p class="text-sm font-semibold">Regente de Farmacia</p>
+                <p class="text-xs text-slate-400">Salud Global</p>
+              </div>
             </div>
-            <div class="testimonial-card">
-                <i data-feather="quote" style="color: var(--primary); margin-bottom: 20px;"></i>
-                <p>"La reducción de filas físicas fue inmediata. Almelia gestiona el 70% de las consultas de stock automáticamente."</p>
-                <br><strong>- Director Médico, IPS Región Andina</strong>
+          </article>
+
+          <article class="w-[360px] flex-shrink-0 rounded-[1.8rem] bg-white/5 p-7 ring-1 ring-white/10">
+            <i data-feather="quote" class="h-6 w-6 text-cyanx"></i>
+            <p class="mt-5 text-sm leading-7 text-slate-200">“Pasamos de responder manualmente todo a tener un flujo mucho más claro, rápido y escalable.”</p>
+            <div class="mt-6 flex items-center gap-3">
+              <div class="flex h-11 w-11 items-center justify-center rounded-full bg-white/10">
+                <i data-feather="bar-chart-2" class="h-5 w-5 text-white"></i>
+              </div>
+              <div>
+                <p class="text-sm font-semibold">Coordinador Operativo</p>
+                <p class="text-xs text-slate-400">Red Ambulatoria</p>
+              </div>
             </div>
+          </article>
+
+          <article class="w-[360px] flex-shrink-0 rounded-[1.8rem] bg-white/5 p-7 ring-1 ring-white/10">
+            <i data-feather="quote" class="h-6 w-6 text-cyanx"></i>
+            <p class="mt-5 text-sm leading-7 text-slate-200">“La reducción de filas físicas fue inmediata. Ahora el paciente llega mejor informado y el punto de atención trabaja más ordenado.”</p>
+            <div class="mt-6 flex items-center gap-3">
+              <div class="flex h-11 w-11 items-center justify-center rounded-full bg-white/10">
+                <i data-feather="briefcase" class="h-5 w-5 text-white"></i>
+              </div>
+              <div>
+                <p class="text-sm font-semibold">Director Médico</p>
+                <p class="text-xs text-slate-400">IPS Región Andina</p>
+              </div>
+            </div>
+          </article>
         </div>
-    </section>
+      </div>
+    </div>
+  </section>
 
-    <section class="cta-final" data-aos="zoom-out">
-        <h2>¿Listo para liderar el cambio?</h2>
-        <p style="margin-bottom: 40px; font-size: 1.2rem;">Únase a la revolución de la salud digital en Colombia.</p>
-        <a href="https://wa.me/573218776753" target="_blank" class="btn" style="background: white; color: var(--primary); padding: 20px 50px; font-size: 1.3rem;">
-            <i data-feather="zap"></i> Iniciar ahora
-        </a>
-    </section>
+  <!-- CONTACTO -->
+  <section id="contacto" class="bg-surface py-24">
+    <div class="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+      <div class="grid gap-8 lg:grid-cols-2">
+        <div class="rounded-[2rem] bg-darknav p-10 text-white shadow-softxl" data-aos="fade-up">
+          <p class="text-sm font-bold uppercase tracking-[0.2em] text-cyanx">Contacto directo</p>
+          <h2 class="mt-3 font-display text-4xl font-bold">
+            Conversemos por WhatsApp y evaluamos tu operación.
+          </h2>
+          <p class="mt-5 text-base leading-8 text-slate-300">
+            Si quieres validar el caso de uso para tu IPS o farmacia, escríbeme y te muestro cómo adaptar Almelia IA a tu operación.
+          </p>
 
-    <footer>
-        <p><strong>Almelia IA</strong> | Innovación en Salud Digital</p>
-        <p style="margin-top: 10px;">Jhon Edison Betancurt Lora - Desarrollador Senior</p>
-        <p>+57 321 877 6753 | Quindío, Colombia</p>
-    </footer>
+          <div class="mt-8 space-y-4">
+            <div class="flex items-center gap-4">
+              <div class="flex h-11 w-11 items-center justify-center rounded-2xl bg-white/10">
+                <i data-feather="phone" class="h-5 w-5"></i>
+              </div>
+              <div>
+                <p class="text-sm font-semibold">WhatsApp</p>
+                <p class="text-sm text-slate-300">+57 321 877 6753</p>
+              </div>
+            </div>
 
-    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-    <script>
-        feather.replace();
-        AOS.init({
-            duration: 1000,
-            once: true
-        });
-    </script>
+            <div class="flex items-center gap-4">
+              <div class="flex h-11 w-11 items-center justify-center rounded-2xl bg-white/10">
+                <i data-feather="map-pin" class="h-5 w-5"></i>
+              </div>
+              <div>
+                <p class="text-sm font-semibold">Ubicación</p>
+                <p class="text-sm text-slate-300">Quindío, Colombia</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="rounded-[2rem] border border-line bg-white p-10 shadow-softxl" data-aos="fade-up" data-aos-delay="100">
+          <div class="inline-flex h-14 w-14 items-center justify-center rounded-2xl bg-blue-100 text-primary">
+            <i data-feather="message-circle" class="h-6 w-6"></i>
+          </div>
+          <h3 class="mt-5 font-display text-3xl font-bold text-ink">
+            Elige cómo quieres avanzar
+          </h3>
+          <p class="mt-4 text-base leading-8 text-soft">
+            Puedes probar el agente si está disponible en tu entorno local o escribirme directamente por WhatsApp.
+          </p>
+
+          <div class="mt-8 space-y-4">
+            <a
+              href="http://localhost:5678/webhook/7d6e359f-8d72-4e18-a76d-4b7fe0dde7ae/chat"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="flex items-center justify-between rounded-2xl border border-slate-200 px-5 py-4 transition hover:border-slate-900 hover:bg-slate-50"
+            >
+              <div class="flex items-center gap-3">
+                <i data-feather="play-circle" class="h-5 w-5 text-ink"></i>
+                <span class="text-sm font-semibold text-ink">Probar Almelia</span>
+              </div>
+              <i data-feather="arrow-up-right" class="h-4 w-4 text-soft"></i>
+            </a>
+
+            <a
+              href="https://wa.me/573218776753?text=Hola%20Jhon%2C%20quiero%20agendar%20una%20demo%20de%20Almelia%20IA"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="flex items-center justify-between rounded-2xl border border-slate-200 px-5 py-4 transition hover:border-primary hover:bg-blue-50"
+            >
+              <div class="flex items-center gap-3">
+                <i data-feather="calendar" class="h-5 w-5 text-primary"></i>
+                <span class="text-sm font-semibold text-ink">Agendar demo</span>
+              </div>
+              <i data-feather="arrow-up-right" class="h-4 w-4 text-soft"></i>
+            </a>
+
+            <a
+              href="https://wa.me/573218776753?text=Hola%20Jhon%2C%20quiero%20una%20cotizaci%C3%B3n%20de%20Almelia%20IA"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="flex items-center justify-between rounded-2xl border border-slate-200 px-5 py-4 transition hover:border-green-500 hover:bg-green-50"
+            >
+              <div class="flex items-center gap-3">
+                <i data-feather="send" class="h-5 w-5 text-green-600"></i>
+                <span class="text-sm font-semibold text-ink">Solicitar cotización</span>
+              </div>
+              <i data-feather="arrow-up-right" class="h-4 w-4 text-soft"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA FINAL -->
+  <section class="px-4 pb-16 sm:px-6 lg:px-8">
+    <div class="mx-auto max-w-6xl rounded-[2.5rem] bg-gradient-to-r from-primary to-cyanx px-8 py-16 text-center text-white shadow-glow">
+      <div class="mx-auto max-w-3xl">
+        <div class="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-white/15">
+          <i data-feather="zap" class="h-6 w-6"></i>
+        </div>
+        <h2 class="mt-6 font-display text-4xl font-bold sm:text-5xl">
+          Prueba el agente o escríbeme por WhatsApp.
+        </h2>
+        <p class="mt-5 text-base leading-8 text-blue-50">
+          Un paso para experimentar a Almelia y otro para hablar directamente contigo.
+        </p>
+
+        <div class="mt-8 flex flex-wrap items-center justify-center gap-4">
+          <a
+            href="http://localhost:5678/webhook/7d6e359f-8d72-4e18-a76d-4b7fe0dde7ae/chat"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-flex items-center gap-2 rounded-2xl bg-darknav px-8 py-4 text-sm font-semibold text-white transition hover:-translate-y-0.5 hover:bg-slate-900"
+          >
+            <i data-feather="play-circle" class="h-4 w-4"></i>
+            Probar Almelia
+          </a>
+
+          <a
+            href="https://wa.me/573218776753?text=Hola%20Jhon%2C%20quiero%20empezar%20con%20Almelia%20IA"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-flex items-center gap-2 rounded-2xl bg-white px-8 py-4 text-sm font-semibold text-primary transition hover:-translate-y-0.5"
+          >
+            <i data-feather="message-circle" class="h-4 w-4"></i>
+            Hablar por WhatsApp
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- BOTON FLOTANTE -->
+  <a
+    class="floating-wa inline-flex h-14 w-14 items-center justify-center rounded-full bg-[#25D366] text-white shadow-2xl transition hover:scale-105"
+    href="https://wa.me/573218776753"
+    target="_blank"
+    rel="noopener noreferrer"
+    aria-label="Abrir WhatsApp"
+  >
+    <i data-feather="message-circle" class="h-6 w-6"></i>
+  </a>
+
+  <!-- FOOTER -->
+  <footer class="border-t border-slate-200 bg-white py-8">
+    <div class="mx-auto max-w-7xl px-4 text-center text-xs text-slate-500 sm:px-6 lg:px-8">
+      <p><span class="font-semibold">Almelia IA</span> · Tu Asistente Virtual de Farmacia</p>
+      <p class="mt-1">Jhon Edison Betancurt Lora · Quindío, Colombia</p>
+      <p class="mt-1">WhatsApp: +57 321 877 6753</p>
+    </div>
+  </footer>
+
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <script>
+    feather.replace();
+    AOS.init({
+      duration: 900,
+      once: true,
+      offset: 120
+    });
+  </script>
 </body>
 </html>
